@@ -1,0 +1,21 @@
+# Render blueprint: API only (the client goes to Vercel, see client/vercel.json).
+# Installs from the repo root because the project uses npm workspaces.
+services:
+  - type: web
+    name: team-finder-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build -w server
+    startCommand: npm run start -w server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # Neon pooled connection string with ?sslmode=require
+      - key: REDIS_URL
+        sync: false # optional, Upstash rediss:// URL
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        sync: false # e.g. https://team-finder.vercel.app (comma-separated allowlist)

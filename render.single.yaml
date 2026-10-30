@@ -1,0 +1,25 @@
+# Render blueprint: ONE service that serves both the API and the built client.
+# Cookies are first-party, so login works in Safari and with third-party cookies blocked.
+# Use with: render blueprint file path = render.single.yaml
+services:
+  - type: web
+    name: team-finder
+    runtime: node
+    plan: free
+    # VITE_API_URL is empty so the client calls the API on its own origin.
+    buildCommand: npm ci && VITE_API_URL= npm run build
+    startCommand: npm run start -w server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVE_CLIENT
+        value: 'true'
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        sync: false # the service's own URL, e.g. https://team-finder.onrender.com
