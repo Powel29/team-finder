@@ -8,7 +8,7 @@ import { usePageTitle } from '@/hooks/use-page-title.js';
 function Section({ title, teams, empty }) {
   return (
     <section aria-label={title} className="space-y-4">
-      <h2 className="text-xl font-bold">
+      <h2 className="text-lg">
         {title} <span className="text-slate-500">({teams.length})</span>
       </h2>
       {teams.length === 0 ? (
@@ -31,9 +31,14 @@ export default function TeamsPage() {
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-extrabold">My teams</h1>
+        <div>
+          <h1 className="text-2xl">My teams</h1>
+          <p className="mt-1 text-sm text-slate-600">Teams you lead and teams you have joined.</p>
+        </div>
         <Link to="/teams/new">
-          <Button icon={Plus}>Create team</Button>
+          <Button size="sm" icon={Plus}>
+            Create team
+          </Button>
         </Link>
       </div>
       {isPending && <CardSkeletons count={3} />}

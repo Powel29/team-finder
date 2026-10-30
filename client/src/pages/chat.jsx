@@ -17,7 +17,7 @@ export function ChatIndexPage() {
   if (desktop && !isPending && teams.length > 0) return <Navigate to={`/teams/${teams[0].id}/chat`} replace />;
   return (
     <div className="mx-auto max-w-lg space-y-4">
-      <h1 className="text-3xl font-extrabold">Chat</h1>
+      <h1 className="text-2xl">Chat</h1>
       <ChatSidebar />
     </div>
   );

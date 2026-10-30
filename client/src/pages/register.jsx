@@ -44,7 +44,7 @@ export default function RegisterPage() {
       footer={
         <>
           Already have an account?{' '}
-          <Link to="/login" className="font-semibold text-brand-700 hover:underline">
+          <Link to="/login" className="font-semibold text-slate-900 hover:underline">
             Log in
           </Link>
         </>
@@ -52,7 +52,7 @@ export default function RegisterPage() {
     >
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
         {errors.root && (
-          <p role="alert" className="rounded-xl bg-red-50 px-3 py-2 text-sm font-medium text-red-800">
+          <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm font-medium text-red-800">
             {errors.root.message}
           </p>
         )}

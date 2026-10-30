@@ -7,3 +7,8 @@ coverage
 prisma/*.db
 server/src/generated
 dump.rdb
+CLAUDE.md
+.taste-skill
+*.md
+!README.md
+.claude

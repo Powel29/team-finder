@@ -61,14 +61,14 @@ export default function PersonDetailPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
-      <Card>
+      <Card className="p-6">
         <div className="flex flex-wrap items-start gap-4">
           <Avatar name={person.name} size="xl" />
           <div className="min-w-0 flex-1">
-            <h1 className="text-3xl font-extrabold">{person.name}</h1>
+            <h1 className="text-2xl">{person.name}</h1>
             <p className="mt-1 text-slate-600">{person.headline || 'No headline yet'}</p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              <Badge tone="brand">{levelLabel(person.experienceLevel)}</Badge>
+              <Badge>{levelLabel(person.experienceLevel)}</Badge>
               <span className="inline-flex items-center gap-1 text-sm text-slate-600">
                 <Clock className="size-4" aria-hidden /> {person.availabilityHrs} h/week
               </span>
@@ -80,7 +80,7 @@ export default function PersonDetailPage() {
                   href={person.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-semibold text-brand-700 hover:underline"
+                  className="inline-flex items-center gap-1 font-semibold text-slate-900 hover:underline"
                 >
                   GitHub <ExternalLink className="size-3.5" aria-hidden />
                 </a>
@@ -90,7 +90,7 @@ export default function PersonDetailPage() {
                   href={person.portfolioUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-semibold text-brand-700 hover:underline"
+                  className="inline-flex items-center gap-1 font-semibold text-slate-900 hover:underline"
                 >
                   Portfolio <ExternalLink className="size-3.5" aria-hidden />
                 </a>
@@ -101,7 +101,7 @@ export default function PersonDetailPage() {
           {isSelf && (
             <Link
               to="/profile"
-              className="inline-flex h-10 items-center rounded-xl border border-slate-200 px-4 text-sm font-semibold hover:bg-slate-50"
+              className="inline-flex h-10 items-center rounded-lg border border-slate-300 px-4 text-sm font-medium hover:bg-slate-50"
             >
               Edit profile
             </Link>
@@ -112,13 +112,13 @@ export default function PersonDetailPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
-          <h2 className="mb-3 text-lg font-bold">Skills</h2>
+          <h2 className="mb-3 text-lg">Skills</h2>
           {person.skills.length === 0 ? (
             <p className="text-sm text-slate-600">No skills listed yet.</p>
           ) : (
             <div className="flex flex-wrap gap-1.5">
               {person.skills.map((s) => (
-                <Chip key={s.id} tone={person.match?.matchedSkills.includes(s.name) ? 'success' : 'brand'}>
+                <Chip key={s.id} tone={person.match?.matchedSkills.includes(s.name) ? 'success' : 'slate'}>
                   {s.name}
                 </Chip>
               ))}
@@ -126,7 +126,7 @@ export default function PersonDetailPage() {
           )}
           {person.interests.length > 0 && (
             <>
-              <h3 className="mb-2 mt-5 text-sm font-bold uppercase tracking-wide text-slate-600">Interests</h3>
+              <h3 className="mb-2 mt-5 text-sm text-slate-600">Interests</h3>
               <div className="flex flex-wrap gap-1.5">
                 {person.interests.map((i) => (
                   <Chip key={i}>{i}</Chip>
@@ -136,7 +136,7 @@ export default function PersonDetailPage() {
           )}
           {person.lookingFor.length > 0 && (
             <>
-              <h3 className="mb-2 mt-5 flex items-center gap-1.5 text-sm font-bold uppercase tracking-wide text-slate-600">
+              <h3 className="mb-2 mt-5 flex items-center gap-1.5 text-sm text-slate-600">
                 <Briefcase className="size-4" aria-hidden /> Looking for
               </h3>
               <div className="flex flex-wrap gap-1.5">
@@ -151,7 +151,7 @@ export default function PersonDetailPage() {
 
         {!isSelf && (
           <Card>
-            <h2 className="mb-3 text-lg font-bold">Match for your team</h2>
+            <h2 className="mb-3 text-lg">Match for your team</h2>
             <RolePicker
               roleId={roleId}
               onChange={(next) => setSearchParams(next ? { roleId: next } : {}, { replace: true })}

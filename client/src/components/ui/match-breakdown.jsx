@@ -22,7 +22,7 @@ export function MatchBreakdown({ match }) {
               <span className="font-semibold text-slate-900">{match.breakdown[key]}%</span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-slate-200">
-              <div className="h-full rounded-full bg-brand-600" style={{ width: `${match.breakdown[key]}%` }} />
+              <div className="h-full rounded-full bg-ink" style={{ width: `${match.breakdown[key]}%` }} />
             </div>
           </li>
         ))}

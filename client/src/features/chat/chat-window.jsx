@@ -87,8 +87,8 @@ export function ChatWindow({ team }) {
           <ArrowLeft className="size-5" aria-hidden />
         </Link>
         <div className="min-w-0 flex-1">
-          <h2 className="truncate font-bold">
-            <Link to={`/teams/${team.id}`} className="hover:text-brand-700">
+          <h2 className="truncate">
+            <Link to={`/teams/${team.id}`} className="hover:underline">
               {team.name}
             </Link>
           </h2>
@@ -147,7 +147,7 @@ export function ChatWindow({ team }) {
               scrollToBottom();
               setPinned(true);
             }}
-            className="absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-xs font-semibold text-white shadow-lg"
+            className="absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white shadow-lg"
           >
             <ArrowDown className="size-4" aria-hidden /> {newCount} new message{newCount === 1 ? '' : 's'}
           </button>

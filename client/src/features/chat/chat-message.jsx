@@ -15,8 +15,8 @@ export function ChatMessage({ message, mine, showSender }) {
           className={clsx(
             'whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2 text-left text-sm',
             mine
-              ? 'rounded-br-md bg-brand-600 text-white'
-              : 'rounded-bl-md bg-white text-slate-800 shadow-sm ring-1 ring-slate-200',
+              ? 'rounded-br-md bg-ink text-white'
+              : 'rounded-bl-md bg-white text-slate-800 ring-1 ring-slate-200',
             message.status === 'sending' && 'opacity-60',
             message.status === 'failed' && 'bg-red-100 text-red-900 ring-1 ring-red-300',
           )}

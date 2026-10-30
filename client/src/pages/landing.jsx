@@ -35,8 +35,8 @@ function StatsStrip() {
   return (
     <ul aria-label="Platform statistics" className="mx-auto mt-12 grid max-w-xl grid-cols-3 gap-4">
       {items.map(([label, value]) => (
-        <li key={label} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <span className="block font-display text-3xl font-extrabold text-brand-700">
+        <li key={label} className="rounded-2xl border border-slate-200 bg-white p-4">
+          <span className="block font-display text-3xl text-brand-700">
             {value ?? <Skeleton className="mx-auto h-8 w-10" />}
           </span>
           <span className="mt-1 block text-xs font-medium text-slate-600">{label}</span>
@@ -51,7 +51,7 @@ function FeaturedTeams() {
   if (error || (data && data.length === 0)) return null;
   return (
     <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6" aria-labelledby="featured">
-      <h2 id="featured" className="mb-8 text-center text-3xl font-extrabold">
+      <h2 id="featured" className="mb-8 text-center text-2xl">
         Teams recruiting right now
       </h2>
       <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -64,11 +64,11 @@ function FeaturedTeams() {
           : data.map((team) => (
               <li
                 key={team.id}
-                className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+                className="rounded-2xl border border-slate-200 bg-white p-5"
               >
-                <Badge tone="brand">{typeLabel(team.type)}</Badge>
-                <h3 className="mt-2 text-lg font-bold">
-                  <Link to={`/teams/${team.id}`} className="hover:text-brand-700">
+                <Badge>{typeLabel(team.type)}</Badge>
+                <h3 className="mt-2 text-lg">
+                  <Link to={`/teams/${team.id}`} className="hover:underline">
                     {team.name}
                   </Link>
                 </h3>
@@ -77,7 +77,7 @@ function FeaturedTeams() {
                     <Chip key={s.id}>{s.name}</Chip>
                   ))}
                 </div>
-                <p className="mt-4 text-sm font-semibold text-brand-700">
+                <p className="mt-4 text-sm font-semibold text-slate-900">
                   {team.openSlots} open slot{team.openSlots === 1 ? '' : 's'}
                 </p>
               </li>
@@ -98,7 +98,7 @@ export default function LandingPage() {
           {user ? (
             <Link
               to="/dashboard"
-              className="inline-flex h-10 items-center rounded-xl bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700"
+              className="inline-flex h-10 items-center rounded-lg bg-brand-600 px-4 text-sm font-medium text-white hover:bg-brand-700"
             >
               Go to dashboard
             </Link>
@@ -106,13 +106,13 @@ export default function LandingPage() {
             <>
               <Link
                 to="/login"
-                className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                className="rounded-lg px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200/60"
               >
                 Log in
               </Link>
               <Link
                 to="/register"
-                className="inline-flex h-10 items-center rounded-xl bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700"
+                className="inline-flex h-10 items-center rounded-lg bg-brand-600 px-4 text-sm font-medium text-white hover:bg-brand-700"
               >
                 Sign up
               </Link>
@@ -123,10 +123,10 @@ export default function LandingPage() {
 
       <main>
         <section className="mx-auto max-w-6xl px-4 pb-16 pt-12 text-center sm:px-6 sm:pt-20">
-          <p className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-sm font-semibold text-brand-700">
+          <p className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-sm font-semibold text-slate-900">
             <Search className="size-4" aria-hidden /> Hackathons · startups · open source · course projects
           </p>
-          <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-tight sm:text-6xl">
+          <h1 className="mx-auto max-w-3xl text-4xl leading-tight sm:text-6xl">
             Find your hackathon <span className="text-brand-600">dream team</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
@@ -136,13 +136,13 @@ export default function LandingPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               to={user ? '/dashboard' : '/register'}
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-brand-600 px-6 font-semibold text-white shadow-sm hover:bg-brand-700"
+              className="inline-flex h-12 items-center gap-2 rounded-lg bg-brand-600 px-6 font-medium text-white hover:bg-brand-700"
             >
               Get started <ArrowRight className="size-4" aria-hidden />
             </Link>
             <Link
               to="/browse?tab=teams"
-              className="inline-flex h-12 items-center rounded-xl border border-slate-200 bg-white px-6 font-semibold text-slate-800 shadow-sm hover:bg-slate-50"
+              className="inline-flex h-12 items-center rounded-lg border border-slate-200 bg-white px-6 font-semibold text-slate-800 hover:bg-slate-50"
             >
               Browse teams
             </Link>
@@ -151,16 +151,16 @@ export default function LandingPage() {
         </section>
 
         <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6" aria-labelledby="how">
-          <h2 id="how" className="mb-8 text-center text-3xl font-extrabold">
+          <h2 id="how" className="mb-8 text-center text-2xl">
             How it works
           </h2>
           <ol className="grid gap-5 md:grid-cols-3">
             {STEPS.map(({ icon: Icon, title, text }, i) => (
-              <li key={title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <span className="mb-4 inline-flex size-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+              <li key={title} className="rounded-2xl border border-slate-200 bg-white p-6">
+                <span className="mb-4 inline-flex size-11 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
                   <Icon className="size-6" aria-hidden />
                 </span>
-                <h3 className="text-lg font-bold">
+                <h3 className="text-lg">
                   {i + 1}. {title}
                 </h3>
                 <p className="mt-1.5 text-sm text-slate-600">{text}</p>

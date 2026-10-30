@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Inbox } from 'lucide-react';
-import { EmptyState, ErrorState, Skeleton, Tabs } from '@/components/ui';
+import { Card, EmptyState, ErrorState, Skeleton, Tabs } from '@/components/ui';
 import { RequestRow } from '@/features/requests/request-row.jsx';
 import { useDashboardSummary, useRequests } from '@/features/requests/api.js';
 import { useRequestActions } from '@/features/requests/use-request-actions.js';
@@ -26,7 +26,7 @@ function RequestList({ tab }) {
   if (error) return <ErrorState error={error} onRetry={refetch} />;
   if (data.items.length === 0) return <EmptyState icon={Inbox} title={EMPTY[tab][0]} description={EMPTY[tab][1]} />;
   return (
-    <ul className="space-y-3" aria-label={`${tab} requests`}>
+    <ul className="space-y-2" aria-label={`${tab} requests`}>
       {data.items.map((r) => (
         <RequestRow key={r.id} request={r} onAction={run} busyId={busyId} />
       ))}
@@ -39,7 +39,11 @@ export function RequestTabs({ initial = 'received' }) {
   const [tab, setTab] = useState(initial);
   const { data } = useDashboardSummary();
   return (
-    <section aria-label="Requests" className="space-y-4">
+    <Card as="section" aria-label="Requests" className="space-y-4 p-6">
+      <div>
+        <h2 className="text-lg">Requests</h2>
+        <p className="text-sm text-slate-600">Join requests and invites for the roles you care about</p>
+      </div>
       <Tabs
         label="Requests"
         value={tab}
@@ -51,6 +55,6 @@ export function RequestTabs({ initial = 'received' }) {
         ]}
       />
       <RequestList key={tab} tab={tab} />
-    </section>
+    </Card>
   );
 }

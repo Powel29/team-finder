@@ -1,24 +1,42 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Instrument Sans', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Instrument Sans', 'Inter', system-ui, sans-serif;
 
-  --color-brand-50: #f0efff;
-  --color-brand-100: #e3e1ff;
-  --color-brand-200: #cdc9ff;
-  --color-brand-300: #aea6ff;
-  --color-brand-400: #8a7dff;
-  --color-brand-500: #7061ff;
-  --color-brand-600: #5b4bff;
-  --color-brand-700: #4a39e6;
-  --color-brand-800: #3d2fbd;
-  --color-brand-900: #31288f;
+  /* Warm neutral scale: replaces Tailwind slate so existing classes pick up the new look. */
+  --color-slate-50: #f7f6f5;
+  --color-slate-100: #f1efee;
+  --color-slate-200: #e6e3e1;
+  --color-slate-300: #d2cfcd;
+  --color-slate-400: #a8a4a2;
+  --color-slate-500: #6e6a68;
+  --color-slate-600: #5f5b59;
+  --color-slate-700: #45413f;
+  --color-slate-800: #2a2827;
+  --color-slate-900: #141414;
 
-  --color-accent: #ffb020;
-  --color-success: #15803d;
-  --color-warning: #b45309;
-  --color-danger: #dc2626;
+  /* Muted rose accent, kept to active states and small marks. */
+  --color-brand-50: #f8f0f0;
+  --color-brand-100: #f1e2e2;
+  --color-brand-200: #e4c8c9;
+  --color-brand-300: #d1a3a5;
+  --color-brand-400: #b97a7d;
+  --color-brand-500: #a05f62;
+  --color-brand-600: #8f5254;
+  --color-brand-700: #7a4345;
+  --color-brand-800: #643739;
+  --color-brand-900: #4f2d2f;
+
+  --color-ink: #161616;
+  --color-ground: #f1efee;
+  --color-sheet: #ffffff;
+  --color-line: #e6e3e1;
+
+  --color-accent: #a86f0c;
+  --color-success: #1e7b4f;
+  --color-warning: #92400e;
+  --color-danger: #c4242a;
 }
 
 @layer base {
@@ -26,16 +44,16 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-slate-50 font-sans text-slate-800 antialiased;
+    @apply bg-ground font-sans text-slate-800 antialiased;
   }
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display tracking-tight text-slate-900;
+    @apply font-display font-medium tracking-tight text-slate-900;
   }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-600;
+    @apply outline-2 outline-offset-2 outline-ink;
   }
 }
 

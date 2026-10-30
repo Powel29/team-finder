@@ -1,5 +1,3 @@
-import clsx from 'clsx';
-
 export function ProgressBar({ value, label, className }) {
   const pct = Math.min(100, Math.max(0, value));
   return (
@@ -16,10 +14,10 @@ export function ProgressBar({ value, label, className }) {
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={label ?? 'Progress'}
-        className="h-2 overflow-hidden rounded-full bg-slate-200"
+        className="h-1.5 overflow-hidden rounded-full bg-slate-200"
       >
         <div
-          className={clsx('h-full rounded-full transition-all', pct >= 70 ? 'bg-success' : 'bg-brand-600')}
+          className="h-full rounded-full bg-ink transition-all"
           style={{ width: `${pct}%` }}
         />
       </div>

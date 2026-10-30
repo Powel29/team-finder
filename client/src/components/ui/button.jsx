@@ -2,13 +2,13 @@ import clsx from 'clsx';
 import { Loader2 } from 'lucide-react';
 
 const VARIANTS = {
-  primary: 'bg-brand-600 text-white hover:bg-brand-700 shadow-sm',
-  secondary: 'bg-white text-slate-800 border border-slate-200 hover:bg-slate-50 shadow-sm',
+  primary: 'bg-ink text-white hover:bg-slate-700',
+  secondary: 'bg-white text-slate-800 border border-slate-300 hover:bg-slate-50',
   ghost: 'text-slate-700 hover:bg-slate-100',
-  danger: 'bg-danger text-white hover:bg-red-700 shadow-sm',
-  success: 'bg-success text-white hover:bg-green-800 shadow-sm',
+  danger: 'bg-danger text-white hover:bg-red-800',
+  success: 'bg-success text-white hover:bg-emerald-900',
 };
-const SIZES = { sm: 'h-9 px-3 text-sm', md: 'h-11 px-4 text-sm', lg: 'h-12 px-6 text-base' };
+const SIZES = { sm: 'h-8 px-3 text-sm', md: 'h-10 px-4 text-sm', lg: 'h-12 px-6 text-base' };
 
 export function Button({
   variant = 'primary',
@@ -27,7 +27,7 @@ export function Button({
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       className={clsx(
-        'inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60',
+        'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60',
         VARIANTS[variant],
         SIZES[size],
         className,
@@ -51,10 +51,10 @@ export function IconButton({ label, icon: Icon, className, variant = 'ghost', ..
       aria-label={label}
       title={label}
       className={clsx(
-        'inline-flex size-10 items-center justify-center rounded-xl transition-colors disabled:opacity-60',
+        'inline-flex size-10 items-center justify-center rounded-lg transition-colors disabled:opacity-60',
         variant === 'ghost'
           ? 'text-slate-600 hover:bg-slate-100'
-          : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50',
+          : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50',
         className,
       )}
       {...props}

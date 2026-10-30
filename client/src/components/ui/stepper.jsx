@@ -13,7 +13,7 @@ export function Stepper({ label, value, onChange, min = 1, max = 10 }) {
         onClick={() => onChange(value - 1)}
         className="size-9"
       />
-      <output aria-live="polite" className="w-8 text-center text-sm font-bold">
+      <output aria-live="polite" className="w-8 text-center text-sm font-semibold">
         {value}
       </output>
       <IconButton

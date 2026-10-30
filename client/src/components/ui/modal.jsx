@@ -22,7 +22,7 @@ export function Modal({ open, onClose, title, children, footer }) {
         className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-t-2xl bg-white p-6 shadow-xl sm:rounded-2xl"
       >
         <div className="mb-4 flex items-start justify-between gap-4">
-          <h2 id={titleId} className="text-xl font-bold">
+          <h2 id={titleId} className="text-xl">
             {title}
           </h2>
           <IconButton label="Close dialog" icon={X} onClick={onClose} className="-mr-2 -mt-2" />

@@ -8,14 +8,14 @@ export default function NotFoundPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
       <Logo />
-      <span className="mt-10 inline-flex size-16 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+      <span className="mt-10 inline-flex size-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
         <Compass className="size-8" aria-hidden />
       </span>
-      <h1 className="mt-5 text-4xl font-extrabold">Page not found</h1>
+      <h1 className="mt-5 text-3xl">Page not found</h1>
       <p className="mt-2 max-w-md text-slate-600">The page you are looking for does not exist or has moved.</p>
       <Link
         to="/"
-        className="mt-6 inline-flex h-11 items-center rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white hover:bg-brand-700"
+        className="mt-6 inline-flex h-10 items-center rounded-lg bg-ink px-5 text-sm font-medium text-white hover:bg-slate-700"
       >
         Back to home
       </Link>

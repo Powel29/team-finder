@@ -57,14 +57,14 @@ function Wizard({ defaultName }) {
   return (
     <div className="mx-auto max-w-2xl">
       <div className="mb-6">
-        <h1 className="text-3xl font-extrabold">Tell us about you</h1>
+        <h1 className="text-2xl">Tell us about you</h1>
         <p className="mt-1 text-slate-600">A good profile gets you better matches. You can change everything later.</p>
       </div>
       <ol className="mb-6 flex items-center gap-2" aria-label="Progress">
         {STEPS.map((label, i) => (
           <li key={label} className="flex flex-1 items-center gap-2" aria-current={i === step ? 'step' : undefined}>
             <span
-              className={`inline-flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${i <= step ? 'bg-brand-600 text-white' : 'bg-slate-200 text-slate-600'}`}
+              className={`inline-flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${i <= step ? 'bg-ink text-white' : 'bg-slate-200 text-slate-600'}`}
             >
               {i < step ? <Check className="size-4" aria-hidden /> : i + 1}
             </span>
@@ -78,7 +78,7 @@ function Wizard({ defaultName }) {
       </ol>
       <Card>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <h2 className="mb-4 text-xl font-bold">{STEPS[step]}</h2>
+          <h2 className="mb-4 text-xl">{STEPS[step]}</h2>
           {step === 0 && <BasicsSection register={register} errors={errors} />}
           {step === 1 && <SkillsSection control={control} errors={errors} />}
           {step === 2 && <GoalsSection control={control} />}
@@ -100,7 +100,7 @@ function Wizard({ defaultName }) {
         </form>
       </Card>
       <p className="mt-4 text-center text-sm">
-        <Link to="/dashboard" className="font-medium text-slate-600 hover:text-brand-700 hover:underline">
+        <Link to="/dashboard" className="font-medium text-slate-600 hover:underline">
           Skip for now
         </Link>
       </p>

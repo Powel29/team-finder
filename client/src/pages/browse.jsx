@@ -12,7 +12,7 @@ import { InviteButton } from '@/features/requests/invite-button.jsx';
 import { TeamCard } from '@/features/teams/team-card.jsx';
 import { usePageTitle } from '@/hooks/use-page-title.js';
 
-function Results({ query, renderItem, empty, onClear, cols = 'sm:grid-cols-2 xl:grid-cols-3' }) {
+function Results({ query, renderItem, empty, onClear, noun, cols = 'md:grid-cols-2' }) {
   const { data, isPending, isFetching, error, refetch } = query;
   if (isPending) return <CardSkeletons count={6} />;
   if (error) return <ErrorState error={error} onRetry={refetch} />;
@@ -33,6 +33,9 @@ function Results({ query, renderItem, empty, onClear, cols = 'sm:grid-cols-2 xl:
     );
   return (
     <div className={isFetching ? 'opacity-70 transition-opacity' : 'transition-opacity'} aria-busy={isFetching}>
+      <p className="mb-3 text-sm text-slate-600">
+        {data.total} {noun}
+      </p>
       <div className={`grid gap-4 ${cols}`}>{data.items.map(renderItem)}</div>
     </div>
   );
@@ -44,6 +47,7 @@ function PeopleResults({ params, update, clear, isFiltered, isOwner }) {
     <>
       <Results
         query={query}
+        noun={query.data?.total === 1 ? 'person' : 'people'}
         onClear={isFiltered ? clear : undefined}
         empty={{
           icon: UserSearch,
@@ -72,6 +76,7 @@ function TeamResults({ params, update, clear, isFiltered }) {
     <>
       <Results
         query={query}
+        noun={query.data?.total === 1 ? 'team' : 'teams'}
         onClear={isFiltered ? clear : undefined}
         empty={{
           icon: Users,
@@ -138,8 +143,15 @@ export default function BrowsePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-extrabold">Browse</h1>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl">Browse</h1>
+          <p className="mt-1 text-sm text-slate-600">
+            {tab === 'people'
+              ? 'Students open to joining a team, with their skills and hours.'
+              : 'Open teams and the roles they still need.'}
+          </p>
+        </div>
         {isOwner && (
           <Link to="/teams/new">
             <Button icon={Plus} size="sm">
@@ -168,10 +180,10 @@ export default function BrowsePage() {
           Filters{filterCount > 0 ? ` (${filterCount})` : ''}
         </Button>
       </div>
-      <div className="grid gap-6 lg:grid-cols-[18rem_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[17rem_minmax(0,1fr)]">
         <aside
           aria-label="Filters"
-          className="hidden h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:block"
+          className="hidden h-fit rounded-2xl border border-slate-200 bg-white p-5 lg:block"
         >
           {panel}
         </aside>

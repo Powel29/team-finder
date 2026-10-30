@@ -2,7 +2,7 @@ import { useId } from 'react';
 import clsx from 'clsx';
 
 const control =
-  'w-full rounded-xl border bg-white px-3.5 text-sm text-slate-900 placeholder:text-slate-500 transition-colors focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-200 disabled:bg-slate-100';
+  'w-full rounded-lg border bg-white px-3.5 text-sm text-slate-900 placeholder:text-slate-500 transition-colors focus:border-ink focus:outline-none focus:ring-2 focus:ring-slate-200 disabled:bg-slate-100';
 
 /** Label + control + hint/error, wired with aria attributes. */
 export function Field({ label, error, hint, children, className }) {
@@ -10,7 +10,7 @@ export function Field({ label, error, hint, children, className }) {
   return (
     <div className={className}>
       {label && (
-        <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-slate-700">
+        <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-slate-900">
           {label}
         </label>
       )}

@@ -74,7 +74,7 @@ export function SkillsSection({ control, errors }) {
                   className={clsx(
                     'cursor-pointer rounded-2xl border p-4 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand-600',
                     field.value === level.value
-                      ? 'border-brand-600 bg-brand-50'
+                      ? 'border-ink bg-slate-50'
                       : 'border-slate-200 bg-white hover:border-slate-300',
                   )}
                 >
@@ -86,7 +86,7 @@ export function SkillsSection({ control, errors }) {
                     checked={field.value === level.value}
                     onChange={() => field.onChange(level.value)}
                   />
-                  <span className="block text-sm font-bold">{level.label}</span>
+                  <span className="block text-sm font-semibold">{level.label}</span>
                   <span className="mt-0.5 block text-xs text-slate-600">{level.hint}</span>
                 </label>
               ))}
@@ -135,7 +135,7 @@ export function GoalsSection({ control }) {
                     className={clsx(
                       'cursor-pointer rounded-2xl border p-3 text-center text-sm font-semibold transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand-600',
                       checked
-                        ? 'border-brand-600 bg-brand-50 text-brand-800'
+                        ? 'border-ink bg-slate-50 text-slate-900'
                         : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300',
                     )}
                   >

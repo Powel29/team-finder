@@ -58,7 +58,7 @@ export function JoinRequestModal({ open, onClose, team, role }) {
           decline.
         </p>
         {role.match && (
-          <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-3">
+          <div className="flex items-center gap-3 rounded-lg bg-slate-50 p-3">
             <MatchRing score={role.match.score} size={48} />
             <p className="text-sm text-slate-700">
               Your match for this role is shown with your request.

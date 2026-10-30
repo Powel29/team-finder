@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 
 const COLORS = [
-  'bg-indigo-700',
-  'bg-violet-700',
-  'bg-fuchsia-700',
-  'bg-rose-700',
-  'bg-orange-700',
-  'bg-emerald-700',
-  'bg-teal-700',
-  'bg-sky-700',
+  'bg-indigo-100',
+  'bg-rose-100',
+  'bg-orange-100',
+  'bg-amber-100',
+  'bg-lime-100',
+  'bg-emerald-100',
+  'bg-teal-100',
+  'bg-sky-100',
 ];
 
 const hash = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
@@ -26,7 +26,7 @@ export function Avatar({ name = '?', size = 'md', className }) {
     <span
       aria-hidden
       className={clsx(
-        'inline-flex shrink-0 items-center justify-center rounded-full font-display font-bold text-white',
+        'inline-flex shrink-0 items-center justify-center rounded-full font-display font-medium text-slate-800',
         COLORS[hash(name) % COLORS.length],
         sizes[size],
         className,

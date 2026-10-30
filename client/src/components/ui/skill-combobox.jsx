@@ -18,7 +18,7 @@ export function SkillCombobox({
   max = 30,
   placeholder = 'Search skills…',
   hint,
-  tone = 'brand',
+  tone = 'slate',
 }) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
@@ -102,7 +102,7 @@ export function SkillCombobox({
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 120)}
         onKeyDown={onKeyDown}
-        className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm placeholder:text-slate-500 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-200 disabled:bg-slate-100"
+        className="h-11 w-full rounded-lg border border-slate-200 bg-white px-3.5 text-sm placeholder:text-slate-500 focus:border-ink focus:outline-none focus:ring-2 focus:ring-slate-200 disabled:bg-slate-100"
       />
       {hint && <p className="mt-1.5 text-xs text-slate-600">{hint}</p>}
       {open && (options.length > 0 || isFetching) && (
@@ -110,7 +110,7 @@ export function SkillCombobox({
           id={listId}
           role="listbox"
           aria-label={label ?? 'Skills'}
-          className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-lg"
+          className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-slate-200 bg-white p-1 shadow-lg"
         >
           {options.map((option, i) => (
             <li
@@ -122,7 +122,7 @@ export function SkillCombobox({
               onClick={() => choose(option)}
               className={clsx(
                 'flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm',
-                i === active ? 'bg-brand-50 text-brand-800' : 'text-slate-700',
+                i === active ? 'bg-slate-100 text-slate-900' : 'text-slate-700',
               )}
             >
               {option.type === 'create' ? (

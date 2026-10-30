@@ -23,7 +23,7 @@ function RoleCard({ team, role, formRole, actions }) {
     <Card as="li" className="list-none">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-bold">{role.title}</h3>
+          <h3 className="text-lg">{role.title}</h3>
           <Badge tone={full ? 'slate' : 'success'}>{full ? 'Filled' : `${role.open} open`}</Badge>
           <span className="text-sm text-slate-600">
             {role.filled}/{role.slots} filled
@@ -97,7 +97,7 @@ export function ManageRoles({ team, actions }) {
       </ul>
       {adding ? (
         <Card>
-          <h3 className="mb-4 text-lg font-bold">New role</h3>
+          <h3 className="mb-4 text-lg">New role</h3>
           <RoleEditor
             defaults={emptyRole()}
             saveLabel="Add role"

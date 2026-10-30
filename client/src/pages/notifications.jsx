@@ -19,7 +19,7 @@ export default function NotificationsPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-extrabold">Notifications</h1>
+        <h1 className="text-2xl">Notifications</h1>
         <Button variant="secondary" size="sm" disabled={!unread?.count} onClick={() => markAll.mutate()}>
           Mark all read
         </Button>

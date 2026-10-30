@@ -43,7 +43,7 @@ export function ChatComposer({ onSend, onTyping, onStopTyping, disabled = false 
             submit();
           }
         }}
-        className="max-h-32 min-h-11 flex-1 resize-none rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-200"
+        className="max-h-32 min-h-11 flex-1 resize-none rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm focus:border-ink focus:outline-none focus:ring-2 focus:ring-slate-200"
       />
       <Button type="submit" icon={Send} disabled={!trimmed || disabled} aria-label="Send message">
         <span className="hidden sm:inline">Send</span>

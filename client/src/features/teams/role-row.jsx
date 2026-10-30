@@ -31,14 +31,14 @@ export function RoleRow({ role, action }) {
   return (
     <li
       className={clsx(
-        'rounded-2xl border bg-white p-4 sm:p-5',
-        full ? 'border-slate-200 bg-slate-50' : 'border-slate-200',
+        'rounded-xl p-4 sm:p-5',
+        full ? 'bg-slate-100' : 'bg-slate-50',
       )}
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-lg font-bold">{role.title}</h3>
+            <h3 className="text-lg">{role.title}</h3>
             <Badge tone={full ? 'slate' : 'success'}>{full ? 'Filled' : `${role.open} open`}</Badge>
             <span className="text-sm text-slate-600">
               {role.filled}/{role.slots} filled
@@ -53,7 +53,7 @@ export function RoleRow({ role, action }) {
             aria-valuemax={role.slots}
           >
             <div
-              className="h-full rounded-full bg-brand-600"
+              className="h-full rounded-full bg-ink"
               style={{ width: `${(role.filled / role.slots) * 100}%` }}
             />
           </div>
@@ -62,13 +62,13 @@ export function RoleRow({ role, action }) {
           )}
           {role.requiredSkills.length > 0 && (
             <div className="mt-3">
-              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">Required</p>
-              <SkillChips skills={role.requiredSkills} matched={matched} tone="brand" />
+              <p className="mb-1.5 text-xs font-medium text-slate-600">Required</p>
+              <SkillChips skills={role.requiredSkills} matched={matched} tone="slate" />
             </div>
           )}
           {role.niceToHaveSkills.length > 0 && (
             <div className="mt-3">
-              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">Nice to have</p>
+              <p className="mb-1.5 text-xs font-medium text-slate-600">Nice to have</p>
               <SkillChips skills={role.niceToHaveSkills} matched={matched} tone="slate" />
             </div>
           )}
@@ -80,7 +80,7 @@ export function RoleRow({ role, action }) {
               <Dropdown
                 label={`Match breakdown for ${role.title}`}
                 trigger={
-                  <span className="inline-flex size-9 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100">
+                  <span className="inline-flex size-9 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100">
                     <Info className="size-5" aria-hidden />
                   </span>
                 }
@@ -88,7 +88,7 @@ export function RoleRow({ role, action }) {
               >
                 {() => (
                   <>
-                    <p className="mb-3 text-sm font-bold">How you match {role.title}</p>
+                    <p className="mb-3 text-sm font-semibold">How you match {role.title}</p>
                     <MatchBreakdown match={match} />
                   </>
                 )}

@@ -16,9 +16,9 @@ export function ChipInput({ label, values, onChange, placeholder = 'Type and pre
   return (
     <Field label={label} hint={hint}>
       {(a11y) => (
-        <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-white p-2 focus-within:border-brand-600 focus-within:ring-2 focus-within:ring-brand-200">
+        <div className="flex flex-wrap items-center gap-2 rounded-lg border border-slate-200 bg-white p-2 focus-within:border-ink focus-within:ring-2 focus-within:ring-slate-200">
           {values.map((v) => (
-            <Chip key={v} tone="brand" onRemove={() => onChange(values.filter((x) => x !== v))}>
+            <Chip key={v} onRemove={() => onChange(values.filter((x) => x !== v))}>
               {v}
             </Chip>
           ))}

@@ -10,11 +10,11 @@ import { useRequestActions } from '@/features/requests/use-request-actions.js';
 function TeamPanel({ entry, run, busyId }) {
   const { team, roles, pendingRequests, recommendedPeople, recommendedForRole } = entry;
   return (
-    <Card className="space-y-5">
+    <Card className="space-y-5 p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="text-xl font-bold">
-            <Link to={`/teams/${team.id}`} className="hover:text-brand-700">
+          <h3 className="text-lg">
+            <Link to={`/teams/${team.id}`} className="hover:underline">
               {team.name}
             </Link>
           </h3>
@@ -35,9 +35,9 @@ function TeamPanel({ entry, run, busyId }) {
 
       <ul className="grid gap-2 sm:grid-cols-2" aria-label={`Roles in ${team.name}`}>
         {roles.map((r) => (
-          <li key={r.id} className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2 text-sm">
+          <li key={r.id} className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-sm">
             <span className="font-medium">{r.title}</span>
-            <span className={r.open === 0 ? 'text-slate-500' : 'font-semibold text-brand-700'}>
+            <span className={r.open === 0 ? 'text-slate-500' : 'font-medium text-slate-900'}>
               {r.filled}/{r.slots} filled
             </span>
           </li>
@@ -45,7 +45,7 @@ function TeamPanel({ entry, run, busyId }) {
       </ul>
 
       <div>
-        <h4 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-600">Incoming requests</h4>
+        <h4 className="mb-2 text-sm font-medium text-slate-600">Incoming requests</h4>
         {pendingRequests.length === 0 ? (
           <p className="text-sm text-slate-600">No pending requests for this team.</p>
         ) : (
@@ -59,10 +59,10 @@ function TeamPanel({ entry, run, busyId }) {
 
       {recommendedPeople.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-600">
+          <h4 className="mb-2 text-sm font-medium text-slate-600">
             Recommended for {recommendedForRole.title}
           </h4>
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             {recommendedPeople.map((p) => (
               <PersonCard
                 key={p.userId}
@@ -83,14 +83,7 @@ export function OwnerPanels() {
   const { run, busyId } = useRequestActions();
   return (
     <section aria-label="My teams" className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold">My teams</h2>
-        <Link to="/teams/new">
-          <Button size="sm" icon={Plus}>
-            Create team
-          </Button>
-        </Link>
-      </div>
+      <h2 className="text-xl">My teams</h2>
       {isPending && <Skeleton className="h-48" />}
       {error && <ErrorState error={error} onRetry={refetch} />}
       {data?.teams.length === 0 && (

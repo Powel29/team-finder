@@ -20,7 +20,7 @@ export function Drawer({ open, onClose, title, children }) {
         className="h-full w-[min(22rem,90vw)] overflow-y-auto bg-white p-5 shadow-xl"
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 id={titleId} className="text-lg font-bold">
+          <h2 id={titleId} className="text-lg">
             {title}
           </h2>
           <IconButton label="Close panel" icon={X} onClick={onClose} />

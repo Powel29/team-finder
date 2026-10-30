@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { Sparkles } from 'lucide-react';
 import { Skeleton } from '@/components/ui';
 import { TeamCard } from '@/features/teams/team-card.jsx';
 import { useMemberDashboard } from '@/features/requests/api.js';
@@ -9,16 +8,14 @@ export function RecommendedTeams() {
   if (isPending) return <Skeleton className="h-40" />;
   if (data.recommendations.length === 0) return null;
   return (
-    <section aria-label="Recommended teams" className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="flex items-center gap-2 text-xl font-bold">
-          <Sparkles className="size-5 text-accent" aria-hidden /> Recommended for you
-        </h2>
-        <Link to="/browse?tab=teams&sort=match" className="text-sm font-semibold text-brand-700 hover:underline">
-          See more
+    <section aria-label="Recommended teams" className="space-y-3">
+      <div className="flex items-baseline justify-between">
+        <h2 className="text-xl">Recommended for you</h2>
+        <Link to="/browse?tab=teams&sort=match" className="text-sm text-slate-600 hover:text-slate-900 hover:underline">
+          See all matches
         </Link>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2">
         {data.recommendations.map(({ team, match }) => (
           <TeamCard key={team.id} team={team} bestMatch={match} />
         ))}

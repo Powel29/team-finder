@@ -10,8 +10,8 @@ export function PersonCard({ person, actions, roleId }) {
       <div className="flex items-start gap-3">
         <Avatar name={person.name} size="lg" />
         <div className="min-w-0 flex-1">
-          <h3 className="truncate text-lg font-bold">
-            <Link to={to} className="after:absolute after:inset-0 hover:text-brand-700">
+          <h3 className="truncate text-lg">
+            <Link to={to} className="after:absolute after:inset-0 hover:underline">
               {person.name}
             </Link>
           </h3>
@@ -20,7 +20,7 @@ export function PersonCard({ person, actions, roleId }) {
         {person.match && <MatchRing score={person.match.score} size={48} />}
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <Badge tone="brand">{levelLabel(person.experienceLevel)}</Badge>
+        <Badge>{levelLabel(person.experienceLevel)}</Badge>
         <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-600">
           <Clock className="size-3.5" aria-hidden /> {person.availabilityHrs} h/week
         </span>

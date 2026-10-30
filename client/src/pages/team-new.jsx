@@ -41,15 +41,15 @@ export default function TeamNewPage() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="mx-auto max-w-3xl space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold">Create a team</h1>
+        <h1 className="text-2xl">Create a team</h1>
         <p className="mt-1 text-slate-600">Describe your idea, then list the roles you need to fill.</p>
       </div>
       <Card>
-        <h2 className="mb-4 text-lg font-bold">Team details</h2>
+        <h2 className="mb-4 text-lg">Team details</h2>
         <TeamFields register={register} control={control} errors={errors} />
       </Card>
       <Card>
-        <h2 className="mb-1 text-lg font-bold">Roles</h2>
+        <h2 className="mb-1 text-lg">Roles</h2>
         <p className="mb-4 text-sm text-slate-600">
           Each role has slots and the skills you need. Members are matched against these.
         </p>

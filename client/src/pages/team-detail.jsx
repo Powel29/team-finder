@@ -40,11 +40,22 @@ export default function TeamDetailPage() {
   return (
     <div className="space-y-6">
       <ClosedBanner team={team} isOwner={isOwner} />
-      <Card>
-        <div className="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <nav aria-label="Breadcrumb" className="text-xs text-slate-600">
+          <Link to="/browse?tab=teams" className="hover:underline">
+            Browse
+          </Link>{' '}
+          / <span className="text-slate-900">{team.name}</span>
+        </nav>
+        <div className="mt-2 flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
-            <div className="mb-2 flex flex-wrap items-center gap-2">
-              <Badge tone="brand">{typeLabel(team.type)}</Badge>
+            <h1 className="text-2xl">{team.name}</h1>
+            <p className="mt-1 text-sm text-slate-600">
+              Led by {team.owner.name} · {team.memberCount} member{team.memberCount === 1 ? '' : 's'} · target size{' '}
+              {team.teamSize}
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <Badge>{typeLabel(team.type)}</Badge>
               <Badge tone={statusTone}>{statusLabel}</Badge>
               {deadline && (
                 <Badge tone={deadline.tone}>
@@ -52,70 +63,70 @@ export default function TeamDetailPage() {
                 </Badge>
               )}
             </div>
-            <h1 className="text-3xl font-extrabold">{team.name}</h1>
-            <p className="mt-1 text-sm text-slate-600">
-              Led by <span className="font-semibold">{team.owner.name}</span> · {team.memberCount} member
-              {team.memberCount === 1 ? '' : 's'} · target size {team.teamSize}
-            </p>
           </div>
           <div className="flex flex-wrap gap-2">
             {(isOwner || isMember) && (
               <Link to={`/teams/${team.id}/chat`}>
-                <Button variant="secondary" icon={MessageSquare}>
+                <Button variant="secondary" size="sm" icon={MessageSquare}>
                   Open chat
                 </Button>
               </Link>
             )}
             {isOwner && (
               <Link to={`/teams/${team.id}/manage`}>
-                <Button variant="secondary" icon={Settings}>
+                <Button variant="secondary" size="sm" icon={Settings}>
                   Manage team
                 </Button>
               </Link>
             )}
             {isMember && (
-              <Button variant="ghost" icon={LogOut} onClick={() => setLeaving(true)}>
+              <Button variant="ghost" size="sm" icon={LogOut} onClick={() => setLeaving(true)}>
                 Leave team
               </Button>
             )}
           </div>
         </div>
-        <p className="mt-5 whitespace-pre-line text-slate-700">{team.idea}</p>
-        {team.techStack.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {team.techStack.map((s) => (
-              <Chip key={s.id} tone="brand">
-                {s.name}
-              </Chip>
-            ))}
-          </div>
-        )}
-      </Card>
+      </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_20rem]">
-        <section aria-labelledby="roles">
-          <h2 id="roles" className="mb-3 text-xl font-bold">
-            Roles
-          </h2>
-          <ul className="space-y-3">
-            {team.roles.map((role) => (
-              <RoleRow key={role.id} role={role} action={<RoleActions team={team} role={role} />} />
-            ))}
-          </ul>
-        </section>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div className="min-w-0 space-y-6">
+          <Card as="section" aria-labelledby="idea" className="p-6">
+            <h2 id="idea" className="mb-3 text-xl">
+              The idea
+            </h2>
+            <p className="whitespace-pre-line text-slate-700">{team.idea}</p>
+            {team.techStack.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {team.techStack.map((s) => (
+                  <Chip key={s.id}>{s.name}</Chip>
+                ))}
+              </div>
+            )}
+          </Card>
+          <Card as="section" aria-labelledby="roles" className="p-6">
+            <h2 id="roles" className="mb-3 text-xl">
+              Roles
+            </h2>
+            <ul className="space-y-3">
+              {team.roles.map((role) => (
+                <RoleRow key={role.id} role={role} action={<RoleActions team={team} role={role} />} />
+              ))}
+            </ul>
+          </Card>
+        </div>
         <aside aria-labelledby="members">
-          <h2 id="members" className="mb-3 text-xl font-bold">
-            Members
-          </h2>
-          <Card className="p-2">
-            <ul className="divide-y divide-slate-100">
+          <Card className="p-5">
+            <h2 id="members" className="mb-2 text-xl">
+              Members
+            </h2>
+            <ul>
               {team.members.map((m) => (
-                <li key={m.userId} className="flex items-center gap-3 p-3">
+                <li key={m.userId} className="flex items-center gap-3 py-2">
                   <Avatar name={m.name} size="sm" />
                   <div className="min-w-0">
                     <Link
                       to={`/people/${m.userId}`}
-                      className="block truncate text-sm font-semibold hover:text-brand-700"
+                      className="block truncate text-sm font-medium hover:underline"
                     >
                       {m.name}
                     </Link>

@@ -31,7 +31,7 @@ export function MatchRing({ score, size = 52, showLabel = false, className }) {
         </svg>
         <span
           className={clsx(
-            'absolute inset-0 flex items-center justify-center font-display text-sm font-bold',
+            'absolute inset-0 flex items-center justify-center font-display text-xs font-semibold',
             tier.text,
           )}
         >

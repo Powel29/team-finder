@@ -18,7 +18,7 @@ export function Switch({ checked, onChange, label, description, id }) {
         onClick={() => onChange(!checked)}
         className={clsx(
           'relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors',
-          checked ? 'bg-brand-600' : 'bg-slate-300',
+          checked ? 'bg-ink' : 'bg-slate-300',
         )}
       >
         <span

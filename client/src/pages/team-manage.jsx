@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import { Button, ErrorState, PageSpinner, Tabs } from '@/components/ui';
 import { useTeam } from '@/features/teams/api.js';
 import { useTeamActions } from '@/features/teams/manage-api.js';
@@ -30,21 +30,31 @@ export default function TeamManagePage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <Link
-            to={`/teams/${team.id}`}
-            className="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:underline"
-          >
-            <ArrowLeft className="size-4" aria-hidden /> Back to team
+      <div>
+        <nav aria-label="Breadcrumb" className="text-xs text-slate-600">
+          <Link to="/teams" className="hover:underline">
+            My teams
+          </Link>{' '}
+          /{' '}
+          <Link to={`/teams/${team.id}`} className="hover:underline">
+            {team.name}
+          </Link>{' '}
+          / <span className="text-slate-900">Manage</span>
+        </nav>
+        <div className="mt-2 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h1 className="text-2xl">Manage {team.name}</h1>
+            <p className="mt-1 text-sm text-slate-600">
+              {team.memberCount} member{team.memberCount === 1 ? '' : 's'} · {team.openSlots} open seat
+              {team.openSlots === 1 ? '' : 's'}
+            </p>
+          </div>
+          <Link to={`/teams/${team.id}/chat`}>
+            <Button variant="secondary" size="sm" icon={MessageSquare}>
+              Team chat
+            </Button>
           </Link>
-          <h1 className="mt-1 text-3xl font-extrabold">Manage {team.name}</h1>
         </div>
-        <Link to={`/teams/${team.id}/chat`}>
-          <Button variant="secondary" icon={MessageSquare}>
-            Team chat
-          </Button>
-        </Link>
       </div>
       <ClosedBanner team={team} isOwner />
       <Tabs

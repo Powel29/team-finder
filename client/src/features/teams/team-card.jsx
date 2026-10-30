@@ -13,13 +13,13 @@ export function TeamCard({ team, bestMatch }) {
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="mb-2 flex flex-wrap items-center gap-2">
-            <Badge tone="brand">{typeLabel(team.type)}</Badge>
+            <Badge>{typeLabel(team.type)}</Badge>
             {team.status !== 'OPEN' && (
               <Badge tone={STATUS_TONE[team.status]}>{team.status === 'CLOSED' ? 'Closed' : 'Archived'}</Badge>
             )}
           </div>
-          <h3 className="truncate text-lg font-bold">
-            <Link to={`/teams/${team.id}`} className="after:absolute after:inset-0 hover:text-brand-700">
+          <h3 className="truncate text-lg">
+            <Link to={`/teams/${team.id}`} className="after:absolute after:inset-0 hover:underline">
               {team.name}
             </Link>
           </h3>
@@ -39,7 +39,7 @@ export function TeamCard({ team, bestMatch }) {
         {team.roles.slice(0, 4).map((r) => (
           <li key={r.id} className="flex justify-between gap-2 text-slate-700">
             <span className="truncate">{r.title}</span>
-            <span className={r.open === 0 ? 'text-slate-500' : 'font-semibold text-brand-700'}>
+            <span className={r.open === 0 ? 'text-slate-500' : 'font-medium text-slate-900'}>
               {r.filled}/{r.slots}
             </span>
           </li>

@@ -12,7 +12,7 @@ export function RolesBuilder({ control, register, errors }) {
     <div className="space-y-4">
       {fields.map((field, index) => (
         <fieldset key={field.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
-          <legend className="px-2 text-sm font-bold text-slate-700">Role {index + 1}</legend>
+          <legend className="px-2 text-sm text-slate-700">Role {index + 1}</legend>
           <RoleFields
             control={control}
             register={register}

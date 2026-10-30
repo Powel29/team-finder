@@ -26,8 +26,8 @@ export function ChatSidebar({ activeId }) {
               to={`/teams/${team.id}/chat`}
               aria-current={team.id === activeId ? 'page' : undefined}
               className={clsx(
-                'flex items-center gap-3 rounded-xl p-3 transition-colors',
-                team.id === activeId ? 'bg-brand-50' : 'hover:bg-slate-50',
+                'flex items-center gap-3 rounded-lg p-3 transition-colors',
+                team.id === activeId ? 'bg-slate-100' : 'hover:bg-slate-50',
               )}
             >
               <Avatar name={team.name} />
@@ -38,7 +38,7 @@ export function ChatSidebar({ activeId }) {
               {unread[team.id] > 0 && team.id !== activeId && (
                 <span
                   aria-label={`${unread[team.id]} unread`}
-                  className="min-w-5 rounded-full bg-brand-600 px-1.5 text-center text-xs font-bold leading-5 text-white"
+                  className="min-w-5 rounded-full bg-danger px-1.5 text-center text-xs font-semibold leading-5 text-white"
                 >
                   {unread[team.id]}
                 </span>

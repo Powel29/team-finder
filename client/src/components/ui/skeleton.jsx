@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 export const Skeleton = ({ className }) => (
-  <div aria-hidden className={clsx('animate-pulse rounded-xl bg-slate-200', className)} />
+  <div aria-hidden className={clsx('animate-pulse rounded-lg bg-slate-200', className)} />
 );
 
 export function CardSkeletons({ count = 6 }) {

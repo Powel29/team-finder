@@ -23,7 +23,7 @@ export function SearchInput({ value, onChange, placeholder, label }) {
 
   return (
     <div>
-      <label htmlFor="browse-search" className="mb-1.5 block text-sm font-medium text-slate-700">
+      <label htmlFor="browse-search" className="mb-1.5 block text-sm font-medium text-slate-900">
         {label}
       </label>
       <div className="relative">
@@ -37,14 +37,14 @@ export function SearchInput({ value, onChange, placeholder, label }) {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder={placeholder}
-          className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-9 pr-9 text-sm focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-200"
+          className="h-10 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-9 text-sm focus:border-ink focus:outline-none focus:ring-2 focus:ring-slate-200"
         />
         {draft && (
           <button
             type="button"
             aria-label="Clear search"
             onClick={() => setDraft('')}
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-500 hover:bg-slate-100"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-slate-500 hover:bg-slate-100"
           >
             <X className="size-4" aria-hidden />
           </button>
@@ -57,7 +57,7 @@ export function SearchInput({ value, onChange, placeholder, label }) {
 export function CheckboxGroup({ legend, options, values, onChange }) {
   return (
     <fieldset>
-      <legend className="mb-2 text-sm font-medium text-slate-700">{legend}</legend>
+      <legend className="mb-2 text-sm font-medium text-slate-900">{legend}</legend>
       <div className="space-y-1.5">
         {options.map((o) => (
           <label key={o.value} className="flex cursor-pointer items-center gap-2.5 text-sm text-slate-700">
@@ -67,7 +67,7 @@ export function CheckboxGroup({ legend, options, values, onChange }) {
               onChange={() =>
                 onChange(values.includes(o.value) ? values.filter((v) => v !== o.value) : [...values, o.value])
               }
-              className="size-4 rounded border-slate-300 accent-brand-600"
+              className="size-4 rounded border-slate-300 accent-ink"
             />
             {o.label}
           </label>
