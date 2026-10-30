@@ -1,0 +1,46 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+
+  --color-brand-50: #f0efff;
+  --color-brand-100: #e3e1ff;
+  --color-brand-200: #cdc9ff;
+  --color-brand-300: #aea6ff;
+  --color-brand-400: #8a7dff;
+  --color-brand-500: #7061ff;
+  --color-brand-600: #5b4bff;
+  --color-brand-700: #4a39e6;
+  --color-brand-800: #3d2fbd;
+  --color-brand-900: #31288f;
+
+  --color-accent: #ffb020;
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #dc2626;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-slate-50 font-sans text-slate-800 antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight text-slate-900;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
