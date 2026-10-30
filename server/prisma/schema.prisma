@@ -1,0 +1,245 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ExperienceLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum ProjectType {
+  HACKATHON
+  STARTUP
+  OPEN_SOURCE
+  COURSE_PROJECT
+}
+
+enum TeamStatus {
+  OPEN
+  CLOSED
+  ARCHIVED
+}
+
+enum RequestType {
+  INVITE
+  JOIN_REQUEST
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELLED
+}
+
+enum SkillImportance {
+  REQUIRED
+  NICE_TO_HAVE
+}
+
+enum NotificationType {
+  REQUEST_RECEIVED
+  REQUEST_ACCEPTED
+  REQUEST_DECLINED
+  REQUEST_CANCELLED
+  NEW_MATCH
+  ROLE_FILLED
+  TEAM_CLOSED
+  MEMBER_REMOVED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  memberProfile MemberProfile?
+  ownedTeams    Team[]          @relation("TeamOwner")
+  memberships   TeamMember[]
+  sentRequests  Request[]       @relation("RequestSender")
+  receivedReqs  Request[]       @relation("RequestRecipient")
+  notifications Notification[]
+  messages      Message[]
+}
+
+model Skill {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  memberSkills MemberSkill[]
+  teamTech     TeamTech[]
+  roleSkills   RoleSkill[]
+}
+
+model MemberProfile {
+  id              String          @id @default(cuid())
+  userId          String          @unique
+  headline        String          @default("")
+  bio             String          @default("")
+  experienceLevel ExperienceLevel @default(BEGINNER)
+  availabilityHrs Int             @default(5)
+  githubUrl       String?
+  portfolioUrl    String?
+  interests       String[]
+  lookingFor      ProjectType[]
+  isDiscoverable  Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills MemberSkill[]
+
+  @@index([experienceLevel])
+  @@index([availabilityHrs])
+}
+
+model MemberSkill {
+  memberProfileId String
+  skillId         String
+  memberProfile   MemberProfile @relation(fields: [memberProfileId], references: [id], onDelete: Cascade)
+  skill           Skill         @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([memberProfileId, skillId])
+  @@index([skillId])
+}
+
+model Team {
+  id        String      @id @default(cuid())
+  ownerId   String
+  name      String
+  idea      String
+  type      ProjectType
+  teamSize  Int         @default(4)
+  deadline  DateTime?
+  status    TeamStatus  @default(OPEN)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  owner    User         @relation("TeamOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  tech     TeamTech[]
+  roles    Role[]
+  members  TeamMember[]
+  requests Request[]
+  messages Message[]
+
+  @@index([status, type])
+  @@index([ownerId])
+  @@index([deadline])
+}
+
+model TeamTech {
+  teamId  String
+  skillId String
+  team    Team  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  skill   Skill @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([teamId, skillId])
+  @@index([skillId])
+}
+
+model Role {
+  id              String           @id @default(cuid())
+  teamId          String
+  title           String
+  slots           Int              @default(1)
+  filled          Int              @default(0)
+  minLevel        ExperienceLevel?
+  minHoursPerWeek Int?
+  createdAt       DateTime         @default(now())
+
+  team     Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  skills   RoleSkill[]
+  members  TeamMember[]
+  requests Request[]
+
+  @@index([teamId])
+}
+
+model RoleSkill {
+  roleId     String
+  skillId    String
+  importance SkillImportance @default(REQUIRED)
+  role       Role            @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  skill      Skill           @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, skillId])
+  @@index([skillId])
+}
+
+model TeamMember {
+  id       String   @id @default(cuid())
+  teamId   String
+  userId   String
+  roleId   String?
+  isOwner  Boolean  @default(false)
+  joinedAt DateTime @default(now())
+
+  team Team  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role? @relation(fields: [roleId], references: [id], onDelete: SetNull)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+}
+
+model Request {
+  id          String        @id @default(cuid())
+  type        RequestType
+  status      RequestStatus @default(PENDING)
+  teamId      String
+  roleId      String
+  senderId    String
+  recipientId String
+  message     String        @default("")
+  matchScore  Int?
+  createdAt   DateTime      @default(now())
+  respondedAt DateTime?
+
+  team      Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  role      Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  sender    User @relation("RequestSender", fields: [senderId], references: [id], onDelete: Cascade)
+  recipient User @relation("RequestRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@index([recipientId, status])
+  @@index([senderId, status])
+  @@index([teamId, status])
+  @@index([roleId, status])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  body      String           @default("")
+  link      String           @default("")
+  data      Json?
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+  @@index([userId, createdAt])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  teamId    String
+  senderId  String
+  body      String
+  createdAt DateTime @default(now())
+
+  team   Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([teamId, createdAt])
+}
