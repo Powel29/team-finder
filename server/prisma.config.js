@@ -10,5 +10,6 @@ try {
 export default defineConfig({
   schema: 'prisma/schema.prisma',
   migrations: { path: 'prisma/migrations', seed: 'node prisma/seed.js' },
-  datasource: { url: process.env.DATABASE_URL },
+  // Migrations need a direct (non-pooled) connection: PgBouncer poolers cannot take advisory locks.
+  datasource: { url: process.env.DIRECT_URL || process.env.DATABASE_URL },
 });

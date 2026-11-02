@@ -167,7 +167,7 @@ The server suite (125 tests, about 96 % line coverage) runs Supertest and real `
 Target: one **Render** web service (API and built client on the same origin) + **Neon** (PostgreSQL). Config file: `render.single.yaml`.
 
 1. **Neon:** create a project and copy the pooled connection string with `?sslmode=require`.
-2. **Render:** create a Web Service from the repo (or a Blueprint using `render.single.yaml`) with build command `npm ci --include=dev && VITE_API_URL= npm run build` and start command `npm exec -w server prisma migrate deploy && npm run start -w server`. Set `NODE_ENV=production`, `SERVE_CLIENT=true`, `DATABASE_URL`, `JWT_SECRET` (32+ characters) and `CLIENT_ORIGIN` (the service's own URL). Free instances sleep, so the first request can take up to a minute; the client shows a "waking up the server" banner after 3 s.
+2. **Render:** create a Web Service from the repo (or a Blueprint using `render.single.yaml`) with build command `npm ci --include=dev && VITE_API_URL= npm run build` and start command `npm exec -w server prisma migrate deploy && npm run start -w server`. Set `NODE_ENV=production`, `SERVE_CLIENT=true`, `DATABASE_URL` (pooled), `DIRECT_URL` (the Neon direct string without `-pooler`, used only for migrations), `JWT_SECRET` (32+ characters) and `CLIENT_ORIGIN` (the service's own URL). Free instances sleep, so the first request can take up to a minute; the client shows a "waking up the server" banner after 3 s.
 3. **Seed (optional, idempotent):** `DATABASE_URL=<neon url> npm run db:seed`.
 
 The build uses an empty `VITE_API_URL`, so the client calls the API on its own origin and cookies are first-party (they work in Safari too). Locally: `VITE_API_URL= npm run build && SERVE_CLIENT=true npm start -w server`.
