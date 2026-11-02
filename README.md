@@ -17,7 +17,7 @@ One account can be both a member and a team owner; a **Member / Team owner** swi
 
 ## Tech stack
 
-React 19, Vite, React Router, Tailwind CSS v4, TanStack Query, React Hook Form + Zod, socket.io-client, lucide-react · Node.js 22, Express 5, Zod 4, Prisma 7 (PostgreSQL), Socket.io, ioredis (optional), pino, helmet, express-rate-limit · Vitest, Supertest, React Testing Library. Plain modern JavaScript (ES modules) throughout.
+React 19, Vite, React Router, Tailwind CSS v4, TanStack Query, React Hook Form + Zod, socket.io-client, lucide-react · Node.js 22, Express 5, Zod 4, Prisma 7 (PostgreSQL), Socket.io, pino, helmet, express-rate-limit · Vitest, Supertest, React Testing Library. Plain modern JavaScript (ES modules) throughout.
 
 ## Architecture
 
@@ -31,8 +31,6 @@ flowchart LR
   end
   API --> PG[("PostgreSQL via Prisma")]
   IO --> PG
-  API -. "optional cache, rate state, io adapter" .-> Redis[("Redis")]
-  IO -. optional .-> Redis
 ```
 
 Backend layering per feature module (`auth`, `members`, `teams`, `skills`, `requests`, `notifications`, `chat`, `dashboard`, `match`, `public`): `routes → controller → service → prisma/cache`. Business rules live only in services; controllers shape responses. Shared code is in `server/src/lib` (`match.js` is the pure scoring function) and `server/src/middleware`.
@@ -41,7 +39,7 @@ Key design points:
 
 - **Auth:** JWT in the `tf_token` httpOnly cookie (`Secure; SameSite=None` in production, `Lax` when the API serves the client). Sockets authenticate with a 60-second token from `GET /api/auth/socket-token`, so they work even when third-party cookies are blocked.
 - **Race safety:** accepting a request locks the role row and then the request row (`SELECT … FOR UPDATE`) inside one transaction; a partial unique index also forbids duplicate pending requests.
-- **Caching:** Redis is optional. Browse lists are cached per filter hash under a version counter that is bumped on writes (no key scanning); viewer-specific data (match, relation, pending requests) is added after the cache. Without Redis everything works uncached; if Redis dies mid-run requests still succeed.
+- **Data access:** browse lists are read straight from PostgreSQL, and viewer-specific data (match, relation, pending requests) is computed per request.
 - **Real-time:** `notification:new`, `requests:changed`, `team:changed`, `chat:*` events map to TanStack Query invalidations on the client.
 
 ```mermaid
@@ -68,11 +66,11 @@ erDiagram
 
 ## Getting started
 
-Prerequisites: Node.js 22+, npm 10+, PostgreSQL 16 (Redis optional).
+Prerequisites: Node.js 22+, npm 10+, PostgreSQL 16.
 
 ```bash
 # 1. services (pick one)
-docker compose up -d                      # Postgres + Redis
+docker compose up -d                      # Postgres
 # or without Docker, see the comments in docker-compose.yml
 
 # 2. configuration
@@ -83,6 +81,7 @@ cp client/.env.example client/.env
 # 3. install, create schema, seed demo data
 npm ci
 npm run db:migrate                        # prisma migrate dev
+npm run build -w server
 npm run db:seed                           # prints the demo credentials
 
 # 4. run
@@ -125,7 +124,6 @@ Try it with two browsers: log in as Judy and Alice, let Judy request the Designe
 | `NODE_ENV` | `development` | `production` enables `Secure` cookies and `trust proxy` |
 | `PORT` | `4000` | HTTP port |
 | `DATABASE_URL` | – (required) | PostgreSQL connection string |
-| `REDIS_URL` | empty | optional; empty disables Redis |
 | `JWT_SECRET` | – (required) | at least 32 characters |
 | `CLIENT_ORIGIN` | `http://localhost:5173` | comma-separated CORS / socket allowlist |
 | `COOKIE_DOMAIN` | empty | set only to share cookies across subdomains |
@@ -162,18 +160,17 @@ The match formula is documented in [docs/05-MATCHING-ALGORITHM.md](docs/05-MATCH
 npm test
 ```
 
-The server suite (125 tests, about 96 % line coverage) runs Supertest and real `socket.io-client` connections against a PostgreSQL database named `teamfinder_test` (override with `TEST_DATABASE_URL`); Redis is not needed. It covers auth, validation, skills, profiles, teams, the match engine, browse filters, the requests state machine including the last-slot race, notifications, team management, chat, security (no emails or password hashes in any DTO, CORS, helmet, cookie flags, rate limit) and Redis fallback. The client suite covers the match ring, skill combobox, login form, route guard, mode switch, request rows, browse URL sync, notification bell, chat composer and the roles builder.
+The server suite (125 tests, about 96 % line coverage) runs Supertest and real `socket.io-client` connections against a PostgreSQL database named `teamfinder_test` (override with `TEST_DATABASE_URL`). It covers auth, validation, skills, profiles, teams, the match engine, browse filters, the requests state machine including the last-slot race, notifications, team management, chat, security (no emails or password hashes in any DTO, CORS, helmet, cookie flags, rate limit). The client suite covers the match ring, skill combobox, login form, route guard, mode switch, request rows, browse URL sync, notification bell, chat composer and the roles builder.
 
 ## Deployment
 
-Target: **Vercel** (client) + **Render** (API) + **Neon** (PostgreSQL) + **Upstash** (Redis, optional). Config files: `render.yaml`, `client/vercel.json`.
+Target: one **Render** web service (API and built client on the same origin) + **Neon** (PostgreSQL). Config file: `render.single.yaml`.
 
 1. **Neon:** create a project and copy the pooled connection string with `?sslmode=require`.
-2. **Render:** create a Blueprint from `render.yaml`; set `DATABASE_URL`, optionally `REDIS_URL`, and `CLIENT_ORIGIN` (the Vercel URL). The start command runs `prisma migrate deploy` before the server. Free instances sleep, so the first request can take up to a minute; the client shows a "waking up the server" banner after 3 s.
-3. **Vercel:** import the repo with root directory `client`, set `VITE_API_URL` to the Render URL. Put the resulting Vercel URL into Render's `CLIENT_ORIGIN` and redeploy the API.
-4. **Seed (optional, idempotent):** `DATABASE_URL=<neon url> npm run db:seed`.
+2. **Render:** create a Web Service from the repo (or a Blueprint using `render.single.yaml`) with build command `npm ci --include=dev && VITE_API_URL= npm run build` and start command `npm exec -w server prisma migrate deploy && npm run start -w server`. Set `NODE_ENV=production`, `SERVE_CLIENT=true`, `DATABASE_URL`, `JWT_SECRET` (32+ characters) and `CLIENT_ORIGIN` (the service's own URL). Free instances sleep, so the first request can take up to a minute; the client shows a "waking up the server" banner after 3 s.
+3. **Seed (optional, idempotent):** `DATABASE_URL=<neon url> npm run db:seed`.
 
-**Safari / blocked third-party cookies.** The cross-site setup needs third-party cookies for the REST session. The recommended alternative is the single-service mode: `render.single.yaml` builds the client with an empty `VITE_API_URL` and runs the API with `SERVE_CLIENT=true`, so the app and API share one origin and cookies are first-party. Locally: `VITE_API_URL= npm run build && SERVE_CLIENT=true npm start -w server`.
+The build uses an empty `VITE_API_URL`, so the client calls the API on its own origin and cookies are first-party (they work in Safari too). Locally: `VITE_API_URL= npm run build && SERVE_CLIENT=true npm start -w server`.
 
 Post-deploy smoke test: `GET /api/health` returns `db: true`; register and finish onboarding; log in as `alice@demo.dev` (if seeded); in two browsers send a request, accept it and chat.
 
@@ -181,14 +178,13 @@ Post-deploy smoke test: `GET /api/health` returns `db: true`; register and finis
 
 Not deployed from this build session: the configuration above is ready, so add the URLs after deploying.
 
-- Frontend: `https://<your-app>.vercel.app`
-- API: `https://<your-api>.onrender.com`
+- App and API: `https://<your-app>.onrender.com`
 - Repository: <https://github.com/Powel29/team-finder>
 
 ## Known limitations
 
 - The chat rate limit and the Express rate limiters keep their counters in memory, so they are per instance.
-- Presence and room membership are correct across instances only when `REDIS_URL` is set (Socket.io Redis adapter).
+- Real-time events and room membership live in one process, so the API runs as a single instance.
 - There is no committed Playwright end-to-end spec; the golden path was verified manually in two browser contexts.
 - Email delivery, OAuth, file uploads and an admin panel are out of scope by design.
 
