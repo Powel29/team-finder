@@ -7,8 +7,10 @@ services:
     runtime: node
     plan: free
     # VITE_API_URL is empty so the client calls the API on its own origin.
-    buildCommand: npm ci && VITE_API_URL= npm run build
-    startCommand: npm run start -w server
+    # --include=dev: prisma and vite are devDependencies and NODE_ENV=production would skip them.
+    buildCommand: npm ci --include=dev && VITE_API_URL= npm run build
+    # Apply pending migrations, then start the server.
+    startCommand: npm exec -w server prisma migrate deploy && npm run start -w server
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
