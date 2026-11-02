@@ -83,6 +83,7 @@ cp client/.env.example client/.env
 # 3. install, create schema, seed demo data
 npm ci
 npm run db:migrate                        # prisma migrate dev
+npm run build -w server
 npm run db:seed                           # prints the demo credentials
 
 # 4. run
